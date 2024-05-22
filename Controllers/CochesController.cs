@@ -24,7 +24,7 @@ namespace MvcCoreElastiCacheAWS.Controllers
 
         public async Task<IActionResult> Favoritos()
         {
-            List<Coche> coches = this.repo.GetCoches();
+            List<Coche> coches = await this.service.GetCochesFavoritosAsync();
             return View(coches);
         }
 
