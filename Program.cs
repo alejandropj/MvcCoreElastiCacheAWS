@@ -7,6 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<RepositoryCoches>();
 builder.Services.AddTransient<ServiceAWSCache>();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "cache-coches.uajfme.ng.0001.use1.cache.amazonaws.com:6379";
+    options.InstanceName = "ElastiCacheExample";
+});
 
 var app = builder.Build();
 
