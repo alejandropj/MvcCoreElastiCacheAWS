@@ -41,7 +41,16 @@ namespace MvcCoreElastiCacheAWS.Services
             string jsonCoches = JsonConvert.SerializeObject(coches);
             /*await this.cache.StringSetAsync("cochesfavoritos",
                 jsonCoches, TimeSpan.FromMinutes(30));*/
-            await this.cache.SetStringAsync("cochesfavoritos", jsonCoches);
+
+            DistributedCacheEntryOptions options =
+                new DistributedCacheEntryOptions
+                {
+                    SlidingExpiration = TimeSpan.FromMinutes(30)
+                };
+            //ALMACENAMOS LA COLECCION DENTRO DE CACHE REDIS
+            //INDICAREMOS QUE LOS DATOS DURARAN 30 MINUTOS
+            await this.cache.SetStringAsync("cochesfavoritos"
+                , jsonCoches, options);
         }
 
         public async Task DeleteCocheFavoritoAsync(int idcoche)
@@ -58,8 +67,16 @@ namespace MvcCoreElastiCacheAWS.Services
                 else
                 {
                     string jsonCoches = JsonConvert.SerializeObject(cars);
-                    await this.cache.SetStringAsync("cochesfavoritos", jsonCoches);
+                    DistributedCacheEntryOptions options =
+                        new DistributedCacheEntryOptions
+                        {
+                            SlidingExpiration = TimeSpan.FromMinutes(30)
+                        };
+                    //ACTUALIZAMOS EL CACHE REDIS
+                    await this.cache.SetStringAsync("cochesfavoritos", jsonCoches
+                        , options);
                 }
+
             }
         }
     }
